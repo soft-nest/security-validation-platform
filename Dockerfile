@@ -26,8 +26,8 @@ WORKDIR /app
 # Copy the jar file from the build stage into this stage
 COPY --from=build /app/target/custom_shield_gen_two-0.0.1-SNAPSHOT.jar /app/app.jar
 
-# Expose port 8080 for the Spring Boot app
-EXPOSE 8080
+# Expose port 80 for the Spring Boot app
+EXPOSE 80
 
 # Run the Spring Boot application with active profile 'ck'
 ENTRYPOINT ["java", "-Dspring.profiles.active=ck", "-jar", "/app/app.jar"]
