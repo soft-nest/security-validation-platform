@@ -42,10 +42,11 @@
 1. Clone the repository.
 2. Just run `$ docker compose up`.
 ## Admin login
-Login credentials after first setup:
+Login credentials after first setup (in case of sqldump/16_oct_2024_itu_dcgi.sql sqldump):
 
         User email: admin@admin.com
         Password: Admin123!
+        Note: In case of sqldump/23_nov_2024_itu_dcgi_no_user.sql first user can be created from the login screen.
 
 # Legacy Setup
 ## Install Java & Maven.
