@@ -1,23 +1,26 @@
 #!/bin/bash
 
-# Update system packages
+# Ensure proper logging and group permissions
 sudo yum update -y
-
-# Install Docker
 sudo yum install -y docker
 
-# Start and enable Docker service
+# Start Docker with explicit logging
 sudo systemctl start docker
 sudo systemctl enable docker
 
-# Add ec2-user to docker group
+# Add user and ensure group membership
 sudo usermod -aG docker ec2-user
-newgrp docker
+sudo systemctl restart docker
 
-# Test Docker installation
-docker run hello-world
+# Explicit login and group refresh
+exec sudo -u ec2-user newgrp docker
 
-# Install Docker Compose
-sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+# Verbose Docker and Curl testing
+docker version
+docker run hello-world || echo "Docker run failed"
+
+# Verbose Curl download
+curl -v -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
