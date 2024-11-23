@@ -5,15 +5,15 @@ sudo yum update -y
 sudo yum install -y docker
 
 # Start Docker with explicit logging
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo systemctl start docker || echo "docker start didn't work"
+sudo systemctl enable docker || echo "docker enable didn't work"
 
 # Add user and ensure group membership
 sudo usermod -aG docker ec2-user
 sudo systemctl restart docker
 
 # Explicit login and group refresh
-exec sudo -u ec2-user newgrp docker
+sudo -u ec2-user newgrp docker
 
 # Verbose Docker and Curl testing
 docker version
