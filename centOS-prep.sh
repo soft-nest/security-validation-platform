@@ -3,6 +3,7 @@
 # Ensure proper logging and group permissions
 sudo yum update -y
 sudo yum install -y docker
+sudo yum install -y htop
 
 # Start Docker with explicit logging
 sudo systemctl start docker || echo "docker start didn't work"
