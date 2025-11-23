@@ -208,7 +208,7 @@ $(document).ready(function () {
 
 
 function setHeaderLabel() {
-    let initialValue = 'Security Validation Platform';
+    let initialValue = 'CyberSecurity Validation Platform';
     const headerLabelFromLocalStorage = localStorage.getItem(`${encodeURIComponent(window.location.hostname)}-headerLabel`);
     if(headerLabelFromLocalStorage)
         initialValue = headerLabelFromLocalStorage;
