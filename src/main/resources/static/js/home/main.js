@@ -29,7 +29,7 @@ $(document).ready(function () {
         document.querySelector("body").append(modal);
         //adding image to modal
         const newImage = document.createElement("img");
-        newImage.setAttribute("src", "images/ComplexRulerImg.svg");
+        newImage.setAttribute("src", "images/ComplexRulerImg1.png");
         //creating the close button
         const closeBtn = document.createElement("span");
         closeBtn.setAttribute("class", "ruler-img-closeBtn");
