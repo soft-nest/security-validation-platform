@@ -19,7 +19,7 @@ fi
 
 # Add user to both 'docker' and 'evaluation' groups
 # -aG appends the user to the groups without removing them from others
-sudo usermod -aG docker,evaluation ec2-user
+sudo usermod -aG docker ec2-user
 
 # 4. Install Docker Compose
 # Fix: Convert 'Linux' to 'linux' for the URL using tr
