@@ -1,52 +1,32 @@
-# Source code structure
-```
-.
-├── 16_oct_2024_itu_dcgi.sql
-├── pom.xml
-├── README.md
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── ss
-    │   └── resources
-    │       ├── application-ck.properties
-    │       ├── application-ckv2.properties
-    │       ├── application-cloudformations.properties
-    │       ├── application-cybershield2.properties
-    │       ├── application-cybershield.properties
-    │       ├── application-demo.properties
-    │       ├── application-dev.properties
-    │       ├── application-docker.properties
-    │       ├── application-emptydb.properties
-    │       ├── application-genome.properties
-    │       ├── application-gentwoqa.properties
-    │       ├── application.properties
-    │       ├── logback.xml
-    │       ├── static
-    │       │   ├── createAdminUser.html
-    │       │   ├── css
-    │       │   ├── fonts
-    │       │   ├── images
-    │       │   ├── index.html
-    │       │   └── js
-    │       └── templates
-    │           └── login.html
-    └── test
-        └── java
-            └── com
-                └── ss
-```
-
 # Dockerised Setup
 1. Clone the repository.
-2. Just run `$ docker compose up`.
+1. Prepare the host with docker and docker compose. For ubuntu use the [provided script](./ubuntu-prep.sh).
+1. Just run docker in detached mode `$ docker compose up -d`.
+
+## Database Export/Import
+```bash
+# Run shell inside the database container
+docker exec -it mysql-db /bin/bash
+
+# Export all the databases from the mysql database contianer
+mysqldump -uroot -proot --all-databases > backup.sql
+
+# Copy a sql db file from the host to the mysql container
+docker cp backup.sql mysql-db:/
+
+# Copy a sql db file from the mysql db continer to the host
+docker cp mysql-db:/backup.sql .
+
+# Import a sql db file to the mysql database inside the db container
+mysql -uroot -proot genome < backup.sql
+```
+
 ## Admin login
 Login credentials after first setup (in case of sqldump/16_oct_2024_itu_dcgi.sql sqldump):
 
-        User email: admin@admin.com
-        Password: Admin123!
-        Note: In case of sqldump/23_nov_2024_itu_dcgi_no_user.sql first user can be created from the login screen.
+    User email: admin@admin.com
+    Password: Admin123!
+    Note: In case of sqldump/23_nov_2024_itu_dcgi_no_user.sql first user can be created from the login screen.
 
 # Legacy Setup
 ## Install Java & Maven.
