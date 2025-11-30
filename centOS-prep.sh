@@ -41,6 +41,6 @@ echo "----------------------------------------------------------------"
 
 # 5. Final Message
 echo "Installation and group configuration complete."
-echo "Groups assigned: docker, evaluation"
+echo "Groups assigned: docker"
 echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run `newgrp docker`"
 echo "----------------------------------------------------------------"
