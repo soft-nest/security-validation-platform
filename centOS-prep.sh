@@ -12,25 +12,39 @@ sudo systemctl enable docker
 # This allows running docker commands without 'sudo'
 sudo usermod -aG docker ec2-user
 
-# 4. Install Docker Compose
-# Fix: Convert 'Linux' to 'linux' for the URL using tr
+# 4. Install Docker Compose v2 as a CLI plugin
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
-# Download the latest Docker Compose binary
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-${OS}-${ARCH}" -o /usr/local/bin/docker-compose
+# Create the CLI plugins directory
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+
+# Download Docker Compose v2 plugin
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-${OS}-${ARCH}" -o /usr/local/lib/docker/cli-plugins/docker-compose
 
 # Make it executable
-sudo chmod +x /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Verify installations
+# 5. Install Docker Buildx plugin
+# Download the latest buildx binary
+sudo curl -L "https://github.com/docker/buildx/releases/download/v0.17.1/buildx-v0.17.1.${OS}-${ARCH}" -o /usr/local/lib/docker/cli-plugins/docker-buildx
+
+# Make it executable
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+
+# 6. Verify installations
 echo "Docker version:"
-sudo docker --version
+docker --version
+echo ""
 echo "Docker Compose version:"
-sudo docker-compose --version
+docker compose version
+echo ""
+echo "Docker Buildx version:"
+docker buildx version
 
-# 5. Final Message
+# 7. Final Message
 echo "----------------------------------------------------------------"
 echo "Installation complete."
-echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run newgrp docker"
+echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run: newgrp docker"
+echo "Note: Use 'docker compose' (not 'docker-compose') for Compose v2"
 echo "----------------------------------------------------------------"
