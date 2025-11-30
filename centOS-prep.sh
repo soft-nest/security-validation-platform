@@ -1,27 +1,46 @@
 #!/bin/bash
 
-# Ensure proper logging and group permissions
+# 1. Update system and install Docker
 sudo yum update -y
-sudo yum install -y docker
-sudo yum install -y htop
+sudo yum install -y docker htop
 
-# Start Docker with explicit logging
-sudo systemctl start docker || echo "docker start didn't work"
-sudo systemctl enable docker || echo "docker enable didn't work"
+# 2. Start and Enable Docker Service
+sudo systemctl start docker
+sudo systemctl enable docker
 
-# Add user and ensure group membership
-sudo usermod -aG docker ec2-user
-sudo systemctl restart docker
+# 3. Create Groups and Add User
+# Create the 'evaluation' group if it doesn't exist
+if ! getent group evaluation > /dev/null; then
+  sudo groupadd evaluation
+  echo "Group 'evaluation' created."
+else
+  echo "Group 'evaluation' already exists."
+fi
 
-# Inform user about logout requirement
-echo "Please log out and back in for group changes to take effect."
-echo "Alternatively, use 'sudo' for Docker commands in this session."
+# Add user to both 'docker' and 'evaluation' groups
+# -aG appends the user to the groups without removing them from others
+sudo usermod -aG docker,evaluation ec2-user
 
-# Test Docker commands with sudo (optional)
-sudo docker version
-sudo docker run hello-world || echo "Docker run failed"
+# 4. Install Docker Compose
+# Fix: Convert 'Linux' to 'linux' for the URL using tr
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
 
-# Verbose Curl download for Docker Compose
-sudo curl -v -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+# Download the latest Docker Compose binary
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-${OS}-${ARCH}" -o /usr/local/bin/docker-compose
+
+# Make it executable
 sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+# Verify installations
+echo "----------------------------------------------------------------"
+echo "Verifying versions:"
+sudo docker --version
+sudo docker-compose --version
+echo "----------------------------------------------------------------"
+
+# 5. Final Message
+echo "Installation and group configuration complete."
+echo "Groups assigned: docker, evaluation"
+echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run `newgrp docker`"
+echo "----------------------------------------------------------------"
