@@ -8,17 +8,8 @@ sudo yum install -y docker htop
 sudo systemctl start docker
 sudo systemctl enable docker
 
-# 3. Create Groups and Add User
-# Create the 'evaluation' group if it doesn't exist
-if ! getent group evaluation > /dev/null; then
-  sudo groupadd evaluation
-  echo "Group 'evaluation' created."
-else
-  echo "Group 'evaluation' already exists."
-fi
-
-# Add user to both 'docker' and 'evaluation' groups
-# -aG appends the user to the groups without removing them from others
+# 3. Add user to the docker group
+# This allows running docker commands without 'sudo'
 sudo usermod -aG docker ec2-user
 
 # 4. Install Docker Compose
@@ -33,14 +24,13 @@ sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Verify installations
-echo "----------------------------------------------------------------"
-echo "Verifying versions:"
+echo "Docker version:"
 sudo docker --version
+echo "Docker Compose version:"
 sudo docker-compose --version
-echo "----------------------------------------------------------------"
 
 # 5. Final Message
-echo "Installation and group configuration complete."
-echo "Groups assigned: docker"
+echo "----------------------------------------------------------------"
+echo "Installation complete."
 echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run `newgrp docker`"
 echo "----------------------------------------------------------------"
