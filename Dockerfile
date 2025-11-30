@@ -1,5 +1,5 @@
 # Stage 1: Build the application using Maven
-FROM maven:3.6.3-openjdk-11 AS build
+FROM eclipse-temurin:11-jdk AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application using OpenJDK
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre
 
 # Set environment variables for MySQL connection (optional)
 ENV MYSQL_HOST=mysql
