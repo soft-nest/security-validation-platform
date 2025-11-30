@@ -32,5 +32,5 @@ sudo docker-compose --version
 # 5. Final Message
 echo "----------------------------------------------------------------"
 echo "Installation complete."
-echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run `newgrp docker`"
+echo "IMPORTANT: You must log out and log back in for group changes to take effect. Or run newgrp docker"
 echo "----------------------------------------------------------------"
