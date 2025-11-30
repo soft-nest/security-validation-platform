@@ -35,6 +35,7 @@ header .logo a {
 .content .form-container .login-head {
     height: 86px;
     border-radius: 4px 4px 0 0;
+    position: relative;
 }
 
 .content .form-container .login-head .logo a {
